@@ -746,3 +746,10 @@ body {
   .opcao { flex-direction: row; justify-content: center; padding: 14px; gap: 10px; }
   .opcao small { display: none; }
 }
+
+.link-privacidade {
+  color: var(--suave);
+  font-size: 0.85rem;
+}
+
+.link-privacidade:hover { color: var(--mel); }

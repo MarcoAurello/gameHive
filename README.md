@@ -28,3 +28,11 @@ Abra o `index.html` no navegador. Vence quem cercar os 6 lados da Abelha Rainha 
 ---
 
 Developed by **Marco Nunes**
+
+## App (PWA)
+
+O jogo é um PWA: pode ser instalado no celular e funciona offline.
+Publicado em: https://marcoaurello.github.io/gameHive/
+
+Ao alterar qualquer arquivo do jogo, aumente a `VERSAO` em `service-worker.js`
+para os aparelhos baixarem a versão nova.
