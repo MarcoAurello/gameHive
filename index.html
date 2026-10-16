@@ -47,20 +47,11 @@
           </div>
 
           <div class="cartao controles">
-            <div class="modos">
-              <button class="modo ativo" data-modo="dois">👥 2 Jogadores</button>
-              <button class="modo" data-modo="maquina">🤖 Contra a máquina</button>
-            </div>
-            <label class="nivel" id="nivel-box" hidden>
-              Nível
-              <select id="nivel">
-                <option value="facil">Fácil</option>
-                <option value="normal" selected>Normal</option>
-              </select>
-            </label>
+            <span class="modo-rotulo">Partida</span>
+            <span id="modo-atual" class="modo-atual"></span>
           </div>
 
-          <button id="reiniciar" class="botao">↻ Reiniciar partida</button>
+          <button id="reiniciar" class="botao">↻ Nova partida</button>
 
           <details class="regras cartao">
             <summary>Regras</summary>
@@ -81,6 +72,39 @@
     <!-- Metade direita: a colmeia (tabuleiro) -->
     <section class="colmeia" id="colmeia"></section>
   </main>
+
+  <!-- Popup de nova partida: aparece ao abrir e ao reiniciar -->
+  <div class="inicio" id="inicio" role="dialog" aria-modal="true" aria-labelledby="inicio-titulo">
+    <div class="inicio-caixa">
+      <button class="fechar-inicio" id="fechar-inicio" aria-label="Voltar à partida" hidden>✕</button>
+      <div class="inicio-logo">🐝</div>
+      <h2 id="inicio-titulo">Nova partida</h2>
+      <p class="inicio-pergunta">Como você quer jogar?</p>
+
+      <div class="opcoes">
+        <button class="opcao" data-modo="dois">
+          <span class="opcao-icone">👥</span>
+          <b>2 Jogadores</b>
+          <small>No mesmo aparelho</small>
+        </button>
+        <button class="opcao" data-modo="maquina">
+          <span class="opcao-icone">🤖</span>
+          <b>Contra a máquina</b>
+          <small>Você joga com as Brancas</small>
+        </button>
+      </div>
+
+      <div class="niveis" id="niveis" hidden>
+        <p class="inicio-pergunta">Nível da máquina</p>
+        <div class="opcoes-nivel">
+          <button class="nivel-op" data-nivel="facil">😊 Fácil</button>
+          <button class="nivel-op" data-nivel="normal">🧠 Normal</button>
+        </div>
+      </div>
+
+      <button class="botao comecar" id="comecar">Começar ▶</button>
+    </div>
+  </div>
 
   <footer class="rodape">
     Developed by <strong>Marco Nunes</strong>

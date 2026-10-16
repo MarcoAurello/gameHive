@@ -370,6 +370,7 @@ let modo = 'dois';        // 'dois' | 'maquina'
 let nivel = 'normal';     // 'facil' | 'normal'
 let timerMaquina = null;
 
+const popupAberto = () => document.getElementById('inicio').classList.contains('aberto');
 const vezDaMaquina = () => !!estado && modo === 'maquina' && estado.vez === MAQUINA && !estado.fim;
 
 function distancia(a, b) {
@@ -486,7 +487,7 @@ function escolherAcao(j) {
 
 function jogarMaquina() {
   timerMaquina = null;
-  if (!vezDaMaquina()) return;
+  if (!vezDaMaquina() || popupAberto()) return;   // ao fechar o popup, render() agenda de novo
   const acao = escolherAcao(MAQUINA);
   if (acao) {
     estado.selecao = acao;
@@ -621,6 +622,10 @@ function render() {
       `<small>${sel.origem === 'reserva' ? 'Escolha um gomo verde para colocar.' : 'Escolha um gomo verde para mover.'}</small>`
     : '';
 
+  document.getElementById('modo-atual').textContent = modo === 'maquina'
+    ? `🤖 Contra a máquina · ${nivel === 'facil' ? 'Fácil' : 'Normal'}`
+    : '👥 2 Jogadores';
+
   if (vezDaMaquina() && !timerMaquina) timerMaquina = setTimeout(jogarMaquina, 700);
 }
 
@@ -643,19 +648,55 @@ document.getElementById('abrir-menu').addEventListener('click', () => menu.class
 document.getElementById('fechar-menu').addEventListener('click', fecharMenu);
 menu.addEventListener('click', (e) => { if (e.target === menu) fecharMenu(); });
 
-document.getElementById('reiniciar').addEventListener('click', () => { novoJogo(); fecharMenu(); });
+// Popup de nova partida: escolhe modo e nível antes de começar
+const inicio = document.getElementById('inicio');
+const fecharInicioBtn = document.getElementById('fechar-inicio');
+let escolhaModo = modo;
+let escolhaNivel = nivel;
 
-document.querySelectorAll('.modo').forEach((botao) => {
-  botao.addEventListener('click', () => {
-    modo = botao.dataset.modo;
-    document.querySelectorAll('.modo').forEach((b) => b.classList.toggle('ativo', b === botao));
-    document.getElementById('nivel-box').hidden = modo !== 'maquina';
-    novoJogo();
-    if (modo === 'dois') fecharMenu();   // no modo máquina o menu fica aberto para escolher o nível
-  });
+function marcarEscolhas() {
+  document.querySelectorAll('.opcao').forEach((b) => b.classList.toggle('ativo', b.dataset.modo === escolhaModo));
+  document.querySelectorAll('.nivel-op').forEach((b) => b.classList.toggle('ativo', b.dataset.nivel === escolhaNivel));
+  document.getElementById('niveis').hidden = escolhaModo !== 'maquina';
+}
+
+// podeVoltar: ao reiniciar, dá para fechar e continuar a partida atual
+function abrirInicio(podeVoltar) {
+  escolhaModo = modo;
+  escolhaNivel = nivel;
+  marcarEscolhas();
+  fecharInicioBtn.hidden = !podeVoltar;
+  fecharMenu();
+  inicio.classList.add('aberto');
+  document.getElementById('comecar').focus();
+}
+
+function fecharInicio() {
+  inicio.classList.remove('aberto');
+  render();   // retoma a máquina, se for a vez dela
+}
+
+document.querySelectorAll('.opcao').forEach((b) =>
+  b.addEventListener('click', () => { escolhaModo = b.dataset.modo; marcarEscolhas(); })
+);
+document.querySelectorAll('.nivel-op').forEach((b) =>
+  b.addEventListener('click', () => { escolhaNivel = b.dataset.nivel; marcarEscolhas(); })
+);
+
+document.getElementById('comecar').addEventListener('click', () => {
+  modo = escolhaModo;
+  nivel = escolhaNivel;
+  inicio.classList.remove('aberto');
+  novoJogo();
 });
 
-document.getElementById('nivel').addEventListener('change', (e) => { nivel = e.target.value; });
+fecharInicioBtn.addEventListener('click', fecharInicio);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && inicio.classList.contains('aberto') && !fecharInicioBtn.hidden) fecharInicio();
+});
+
+document.getElementById('reiniciar').addEventListener('click', () => abrirInicio(true));
 
 desenharColmeia();
 novoJogo();
+abrirInicio(false);
