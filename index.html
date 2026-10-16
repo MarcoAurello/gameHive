@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#09090a">
+  <title>Colmeia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="jogo">
+    <!-- Metade esquerda: painel do jogo (no celular, vira barra de cima + bandeja de baixo) -->
+    <section class="painel">
+      <header class="topo">
+        <h1><span class="logo">🐝</span><span class="titulo">Colmeia</span></h1>
+        <p class="subtitulo">Cerque os 6 lados da Abelha Rainha adversária!</p>
+        <button class="abrir-menu" id="abrir-menu" aria-label="Abrir menu">☰</button>
+      </header>
+
+      <div class="cartao placar">
+        <div id="status" class="status"></div>
+        <div id="mensagem" class="mensagem"></div>
+      </div>
+
+      <div class="reservas">
+        <div class="reserva cartao" id="reserva-branco">
+          <h2></h2>
+          <div class="pecas"></div>
+        </div>
+        <div class="reserva cartao" id="reserva-preto">
+          <h2></h2>
+          <div class="pecas"></div>
+        </div>
+      </div>
+
+      <div id="info" class="info cartao"></div>
+
+      <!-- Menu: no computador fica no painel; no celular abre por cima -->
+      <div class="menu" id="menu">
+        <div class="menu-folha">
+          <div class="menu-cabecalho">
+            <span>Menu</span>
+            <button class="fechar-menu" id="fechar-menu" aria-label="Fechar menu">✕</button>
+          </div>
+
+          <div class="cartao controles">
+            <div class="modos">
+              <button class="modo ativo" data-modo="dois">👥 2 Jogadores</button>
+              <button class="modo" data-modo="maquina">🤖 Contra a máquina</button>
+            </div>
+            <label class="nivel" id="nivel-box" hidden>
+              Nível
+              <select id="nivel">
+                <option value="facil">Fácil</option>
+                <option value="normal" selected>Normal</option>
+              </select>
+            </label>
+          </div>
+
+          <button id="reiniciar" class="botao">↻ Reiniciar partida</button>
+
+          <details class="regras cartao">
+            <summary>Regras</summary>
+            <ul>
+              <li><b>Objetivo:</b> cercar os 6 lados da Rainha adversária (com peças de qualquer cor). Se as duas forem cercadas ao mesmo tempo, empata.</li>
+              <li><b>No seu turno:</b> coloque uma peça da reserva <i>ou</i> mova uma peça do tabuleiro.</li>
+              <li><b>Colocação:</b> a 1ª peça vai no centro; a 2ª encosta nela. Depois, a peça nova só pode encostar em peças da sua cor e nunca em peças do adversário.</li>
+              <li><b>Rainha:</b> deve entrar até o seu 4º turno. Antes disso você não pode mover peças.</li>
+              <li><b>Colmeia única:</b> nenhum movimento pode separar a colmeia em duas partes.</li>
+              <li><b>Deslizar:</b> a peça precisa caber fisicamente no caminho. Gafanhoto e Besouro são exceções.</li>
+            </ul>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Metade direita: a colmeia (tabuleiro) -->
+    <section class="colmeia" id="colmeia"></section>
+  </main>
+
+  <footer class="rodape">
+    Developed by <strong>Marco Nunes</strong>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
